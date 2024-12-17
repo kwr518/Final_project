@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>번호판 및 차량 검출 결과</title>
+    <style>
+        /* 전체 페이지 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 메인 컨테이너 */
+        .container {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        /* 제목 스타일 */
+        h1 {
+            font-size: 2.5rem;
+            color: #333333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #007bff;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        /* 결과 이미지 스타일 */
+        .result-image {
+            width: 100%;
+            max-width: 640px;
+            height: 360px; /* 고정된 크기 설정 */
+            object-fit: contain;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* OCR 결과 강조 스타일 */
+        .ocr-results {
+            font-size: 1.2rem;
+            color: #222;
+            margin: 20px 0;
+        }
+
+        .ocr-results strong {
+            color: #007bff;
+        }
+
+        /* 버튼 컨테이너 */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* 버튼 스타일 */
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a button {
+            text-decoration: none;
+            color: white;
+        }
+
+        /* 신고 양식 스타일 */
+        #report-form {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        #report-form h3 {
+            margin: 0 0 10px;
+            font-size: 1.3rem;
+            color: #333;
+            text-align: center;
+        }
+
+        #report-text {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            resize: none;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 메인 컨테이너 -->
+    <div class="container">
+        <h1>번호판 및 차량 검출 결과</h1>
+
+        <!-- 결과 이미지 표시 -->
+        {% if result_file %}
+            <img src="{{ url_for('static', filename='results/' + result_file) }}"
+                 alt="Detected Image" class="result-image">
+        {% else %}
+            <p>검출된 이미지가 없습니다.</p>
+        {% endif %}
+
+        <!-- OCR 결과 강조 -->
+        <div class="ocr-results">
+            {% if ocr_results %}
+                <p><strong>검출된 결과:</strong></p>
+                <ul>
+                    {% for result in ocr_results.split(",") %}
+                        <li>{{ result }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p><strong>결과가 없습니다.</strong></p>
+            {% endif %}
+        </div>
+
+        <!-- 버튼 컨테이너 -->
+        <div class="button-container">
+            <!-- 사진 다운로드 버튼 -->
+            {% if result_file %}
+                <a href="{{ url_for('download_image', filename=result_file) }}" download>
+                    <button>결과 사진 다운로드</button>
+                </a>
+            {% endif %}
+
+            <!-- 신고하기 버튼 -->
+            <button onclick="generateReport()">신고하기</button>
+
+            <!-- 돌아가기 버튼 -->
+            <button onclick="window.location.href='{{ url_for('index') }}'">돌아가기</button>
+        </div>
+
+        <!-- 신고 양식 팝업 -->
+        <div id="report-form">
+            <h3>신고 양식</h3>
+            <textarea id="report-text" readonly>
+(지역) 입력
+어느 구역에 차량이 인도 위에 불법 주정차를 하고 있습니다.
+차량 단속 부탁드립니다.
+            </textarea>
+            <button onclick="copyReport()">양식 복사</button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // 신고 양식 표시
+        function generateReport() {
+            const form = document.getElementById('report-form');
+            form.style.display = form.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // 신고 양식 복사
+        function copyReport() {
+            const reportText = document.getElementById('report-text');
+            reportText.select();
+            document.execCommand("copy");
+            alert("신고 양식이 복사되었습니다!");
+        }
+    </script>
+</body>
+</html>

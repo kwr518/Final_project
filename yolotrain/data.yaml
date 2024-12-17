@@ -1,0 +1,13 @@
+train: C:/Users/kwr51/PycharmProjects/pythonProject5/yolotrain/train/images
+val: C:/Users/kwr51/PycharmProjects/pythonProject5/yolotrain/valid/images
+test: C:/Users/kwr51/PycharmProjects/pythonProject5/yolotrain/test/images
+
+nc: 2
+names: ['plate', 'sidewalk']
+
+roboflow:
+  workspace: project-uscjg
+  project: -_-w2arq
+  version: 2
+  license: Private
+  url: https://app.roboflow.com/project-uscjg/-_-w2arq/2

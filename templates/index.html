@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인도 위 차량 신고</title>
+    <style>
+        /* 전체 페이지 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* 메인 컨테이너 */
+        .container {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            text-align: center;
+            width: 50%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        /* 제목과 툴팁 Flexbox 설정 */
+        .title-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px; /* 제목과 물음표 사이의 간격 */
+            margin-bottom: 20px;
+        }
+
+        /* 제목 스타일 */
+        h1 {
+            font-size: 2.5rem;
+            color: #333333;
+            margin: 0;
+        }
+
+        /* 툴팁 스타일 */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%; /* 동그라미 모양 */
+            font-weight: bold;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            padding: 10px;
+            border-radius: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* 툴팁 위치 */
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* 파일 업로드 폼 스타일 */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        input[type="file"] {
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input[type="file"]:focus {
+            border-color: #007bff;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 푸터 스타일 */
+        footer {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #666666;
+        }
+    </style>
+</head>
+<body>
+    <!-- 메인 컨테이너 -->
+    <div class="container">
+        <!-- 제목과 물음표를 Flexbox로 중앙 정렬 -->
+        <div class="title-container">
+            <h1>인도 위 차량 신고</h1>
+            <span class="tooltip">?
+                <span class="tooltip-text">
+                    불법 주정차의 기준은 주정차할 수 없는 구역에 5분 이상 있었을 때 가능합니다. 영상의 경우 5분 이상 넘어가야 합니다.<br>
+                    또한 야간에는 신고될 수 없습니다.
+                </span>
+            </span>
+        </div>
+
+        <p>불법 주정차된 차량을 신고하려면 사진이나 동영상을 업로드해주세요.</p>
+
+        <!-- 파일 업로드 폼 -->
+        <form action="/" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <button type="submit">파일 업로드</button>
+        </form>
+
+        <!-- 푸터 -->
+        <footer>
+            <p>신고 자료를 업로드하면 번호판 인식 및 신고 양식을 생성합니다.</p>
+        </footer>
+    </div>
+</body>
+</html>
